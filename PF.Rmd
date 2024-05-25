@@ -10,4 +10,4 @@ Para este proyecto, primero seleccionamos un artículo científico de nuestro in
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-El fin del estudio es caracterizar el necromicrobioma en condiciones distintas para poder determinar el intervalo postmortem
+El fin del estudio es caracterizar la sucesión fúngica del necrobioma de mamíferos (cerdos) en condiciones distintas (exterior e interior) para poder determinar relaciones entre los distintos intervalos postmortem y los hongos asociados?
