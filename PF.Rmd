@@ -1,0 +1,12 @@
+---
+title: "PF"
+author: "Damián Hernández y Valeria Ibarra"
+date: "2024-05-25"
+output: html_document
+---
+
+Para este proyecto, primero seleccionamos un artículo científico de nuestro interés que esté asociado con la materia.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
