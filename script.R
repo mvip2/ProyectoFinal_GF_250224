@@ -2,16 +2,29 @@
 
 #script para dada 2 
 library(dada2)
-direccion_fastq <- "C:/Users/Haus/Documents/fastq_PF/"
-list.files(direccion_fastq)
+direccion_fastq <- "C:/Users/Haus/Documents/fastq_PF/"#esta es la carpeta local donde están las secuencias fastq, es necerio modificar la dirección dependiendo de la ubicación, ya que no pudimos subir las secuencias a github (2.5 GB)
+list.files(direccion_fastq) # nos muestra los archivos que están en la carpeta
 
-fnFs <- sort(list.files(direccion_fastq, pattern="_1.fastq", full.names = TRUE))
-fnRs <- sort(list.files(direccion_fastq, pattern="_2.fastq", full.names = TRUE))
+fnFs <- sort(list.files(direccion_fastq, pattern="_1.fastq", full.names = TRUE)) #seleccionamos los archivos forward con el patron _1.fastq
+fnRs <- sort(list.files(direccion_fastq, pattern="_2.fastq", full.names = TRUE)) # lo mismo de arriba pero con los reversos 
 
-nombres_forward <- sapply(strsplit(basename(fnFs), "_"), `[`, 1)
-nombres_reverso <- sapply(strsplit(basename(fnRs), "_"), `[`, 1)
+nombres <- sapply(strsplit(basename(fnFs), "_"), `[`, 1)
+
+
+pdf("calidad_phred/calidad_phred_forward.pdf",width=13,height = 8)
+plotQualityProfile(fnFs[1:3])
+dev.off() # la calidad phred es buena, es cercana a 40, mayor a 30
 
 pdf("calidad_phred/calidad_phred_reverse.pdf",width=13,height = 8)
-plotQualityProfile(fnFs[1:96])
-dev.off()
+plotQualityProfile(fnRs[1:3])
+dev.off() # La calidad phred también 
 
+filtFs <- file.path(direccion_fastq, "filtered", paste0(nombres, "_F_filt.fastq.gz"))
+filtRs <- file.path(direccion_fastq, "filtered", paste0(nombres, "_R_filt.fastq.gz"))
+names(filtFs) <- nombres
+names(filtRs) <- nombres
+
+out <- filterAndTrim(fnFs, filtFs, fnRs, filtRs, truncLen=c(240,160), # aqui vamos a filtrar los datos, es decir, vamos a comprimir los archivos fastq y además vamos a cortar las secuencias con calidad phred inferior a 30
+                     maxN=0, maxEE=c(2,2), truncQ=2, rm.phix=TRUE,
+                     compress=TRUE, multithread=FALSE) # On Windows set multithread=FALSE
+# los filtrados fueron subidos a la misma carpeta de drive donde subimos los fastq 
