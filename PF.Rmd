@@ -4,6 +4,7 @@ author: "Damián Hernández y Valeria Ibarra"
 date: "2024-05-25"
 output: html_document
 ---
+Título del artículo: Fungal succession during mammalian cadaver decomposition and potential forensic implications
 
 Para este proyecto, primero seleccionamos un artículo científico de nuestro interés que esté asociado con la materia.
 
