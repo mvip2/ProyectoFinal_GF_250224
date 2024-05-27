@@ -29,10 +29,10 @@ out <- filterAndTrim(fnFs, filtFs, fnRs, filtRs, truncLen=c(240,160), # aqui vam
                      compress=TRUE, multithread=FALSE) # On Windows set multithread=FALSE
 # los filtrados fueron subidos a la misma carpeta de drive donde subimos los fastq
 
-errF <- learnErrors(filtFs, multithread = TRUE)
+errF <- learnErrors(filtFs, multithread = FALSE)
 #104908560 total bases in 437119 reads from 20 samples will be used for learning the error rates.
 
-errR <- learnErrors(filtRs, multithread = TRUE)
+errR <- learnErrors(filtRs, multithread = FALSE)
 #100056160 total bases in 625351 reads from 42 samples will be used for learning the error rates.
 
 plotErrors(errF, nominalQ = TRUE)
