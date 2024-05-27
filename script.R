@@ -27,4 +27,37 @@ names(filtRs) <- nombres
 out <- filterAndTrim(fnFs, filtFs, fnRs, filtRs, truncLen=c(240,160), # aqui vamos a filtrar los datos, es decir, vamos a comprimir los archivos fastq y además vamos a cortar las secuencias con calidad phred inferior a 30
                      maxN=0, maxEE=c(2,2), truncQ=2, rm.phix=TRUE,
                      compress=TRUE, multithread=FALSE) # On Windows set multithread=FALSE
-# los filtrados fueron subidos a la misma carpeta de drive donde subimos los fastq 
+# los filtrados fueron subidos a la misma carpeta de drive donde subimos los fastq
+
+errF <- learnErrors(filtFs, multithread = TRUE)
+#104908560 total bases in 437119 reads from 20 samples will be used for learning the error rates.
+
+errR <- learnErrors(filtRs, multithread = TRUE)
+#100056160 total bases in 625351 reads from 42 samples will be used for learning the error rates.
+
+plotErrors(errF, nominalQ = TRUE)
+#  log-10 transformation introduced infinite values.
+plotErrors(errR, nominalQ = TRUE)
+#  log-10 transformation introduced infinite values.
+
+dadaFs <- dada(filtFs, err = errF, multithread = TRUE)
+dadaRs <- dada(filtRs, err = errR, multithread = TRUE)
+
+mergers <- mergePairs(dadaFs, filtFs, dadaRs, filtRs, verbose=TRUE)
+
+seqtab <- makeSequenceTable(mergers)
+dim(seqtab)
+#[1]   96 7370
+
+seqtab.nochim <- removeBimeraDenovo(seqtab, method="consensus", multithread=TRUE, verbose=TRUE)
+
+table(nchar(getSequences(seqtab.nochim))) #remover quimeras
+
+getN <- function(x) sum(getUniques(x))
+track <- cbind(out, sapply(dadaFs, getN), sapply(dadaRs, getN), sapply(mergers, getN),
+               rowSums(seqtab.nochim))
+
+colnames(track) <- c("input", "filtered", "denoisedF", "denoisedR", "merged", "nonchim")
+rownames(track) <- sample.names
+head(track)
+
