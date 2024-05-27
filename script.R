@@ -61,10 +61,15 @@ colnames(track) <- c("input", "filtered", "denoisedF", "denoisedR", "merged", "n
 rownames(track) <- nombres
 head(track)
 
-taxa <- assignTaxonomy(seqtab.nochim, "C:/Users/Haus/Downloads/RDP_LSU_fixed_train_set_v2.fa.gz", multithread=FALSE) # utilizamos el RDP fungi LSU trainset 11 en lugar de UNITE
-taxa <- addSpecies(taxa, "C:/Users/Haus/Downloads/rdp_species_assignment_LSU_v2.fa.gz")
-saveRDS(taxa, file="taxa.RDS")
-taxa.print <- taxa # Removing sequence rownames for display only
+library("devtools")
+devtools::install_github("benjjneb/dada2")
+library(Rcpp)
+library(dada2)
+
+taxa <- assignTaxonomy(seqtab.nochim, "C:/Users/mvip2/Desktop/260524/silva_nr_v132_train_set.fa.gz", multithread=F)
+taxa <- addSpecies(taxa, "C:/Users/mvip2/Desktop/260524/silva_species_assignment_v132.fa.gz")
+
+taxa.print <- taxa
 rownames(taxa.print) <- NULL
 head(taxa.print)
 
