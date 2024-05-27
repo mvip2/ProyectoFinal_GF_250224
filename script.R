@@ -66,7 +66,7 @@ devtools::install_github("benjjneb/dada2")
 library(Rcpp)
 library(dada2)
 
-taxa <- assignTaxonomy(seqtab.nochim, "C:/Users/mvip2/Desktop/260524/silva_nr_v132_train_set.fa.gz", multithread=F)
+taxa <- assignTaxonomy(seqtab.nochim, "C:/Users/mvip2/Desktop/260524/silva_nr_v132_train_set.fa.gz", multithread=F) #la dirección de la base de datos está dada de forma local
 taxa <- addSpecies(taxa, "C:/Users/mvip2/Desktop/260524/silva_species_assignment_v132.fa.gz")
 
 taxa.print <- taxa
