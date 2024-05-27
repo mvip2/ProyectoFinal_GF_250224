@@ -4,14 +4,10 @@ author: "Damián Hernández y Valeria Ibarra"
 date: "2024-05-25"
 output: html_document
 ---
-Título del artículo: Fungal succession during mammalian cadaver decomposition and potential forensic implications
 
-Para el presente proyecto, primero seleccionamos un artículo científico de nuestro interés que esté asociado con la materia.
-
-Los autores experimentaron con cerdos para caracterizar la sucesión fúngica del microbioma en mamíferos. Utilizaron seis individuos (cerdos), todos que fueron bañados con agua destilada y muestreados (dérmicamente) previo a su eutanasia. Tres de los cadáveres fueron colocados al exterior -cerca de un lago, con al menos 50 metros de distancia entre cada uno- y tres en interior. Se realizaron muestreos en 11 tiempos postmortem de los cadáveres, el suelo cadavérico (sobre el cual reposaban los tres cerdos al exterior) y el suelo no cadavérico. Se investigó la correlación existente en la sucesión fúngica existente con el fin de asociar (acercarse a una propuesta de asociación) la taxa encontrada en los distintos tiempos postmortem. Los autores proponen, de esta forma, el estudio fúngico del necrobioma como una propuesta de herramienta para la investigación forense.
-
-Los autores proveen el número de acceso al archivo de lecturas de secuencia (Sequence Read Archive o SRA, por sus siglas en inglés). A partir de éste, obtuvimos los datos para replicar los resultados del estudio.
+Para este proyecto, primero seleccionamos un artículo científico de nuestro interés que esté asociado con la materia.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+El fin del estudio es caracterizar el necromicobioma en condiciones distintas para poder determinar el intervalo postmortem

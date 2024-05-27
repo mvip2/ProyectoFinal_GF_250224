@@ -72,5 +72,58 @@ head(taxa.print)
 library(phyloseq)
 library(Biostrings)
 library(ggplot2)
+library(data.table)
+library(tidyverse)
+
+# a partir de aqui crearemos el objeto phyloseq, utilizamos el tutorial de dada2, sin embargo, no pudimos colocar los metadatos correctos
+theme_set(theme_bw())
+samples.out <- rownames(seqtab.nochim)
+subject <- sapply(strsplit(samples.out, "D"), `[`, 1)
+gender <- substr(subject,1,1)
+subject <- substr(subject,2,999)
+day <- as.integer(sapply(strsplit(samples.out, "D"), `[`, 2))
+samdf <- data.frame(Subject=subject, Gender=gender, Day=day)
+samdf$When <- "Early"
+samdf$When[samdf$Day>100] <- "Late"
+rownames(samdf) <- samples.out
+
+ps <- phyloseq(otu_table(seqtab.nochim, taxa_are_rows=FALSE), 
+               sample_data(samdf), 
+               tax_table(taxa))
+ps <- prune_samples(sample_names(ps) != "Mock", ps) # Remove mock sample
+dna <- Biostrings::DNAStringSet(taxa_names(ps))
+names(dna) <- taxa_names(ps)
+ps <- merge_phyloseq(ps, dna)
+taxa_names(ps) <- paste0("ASV", seq(ntaxa(ps)))
+ps
+save(ps,file="ps.RDS")
+
+readRDS(file="taxa.RDS")
+
+otu_table(ps)
+sample_data(ps)
+tax_table(ps)
+
+atlas.prune = prune_taxa(taxa_sums(ps) > 1, ps)
+
+readcount <- data.table(as(sample_data(atlas.prune), "data.frame"),
+                        TotalReads = sample_sums(atlas.prune), 
+                        keep.rownames = TRUE)
+setnames(readcount, "rn", "SampleID")
+ggplot(readcount, aes(TotalReads)) + geom_histogram() + ggtitle("Sequencing Depth")
 
 
+head(readcount[order(readcount$TotalReads), c("SampleID", "TotalReads")])
+
+
+otu.rare <- otu_table(atlas.prune)
+otu.rare <- as.data.frame(t(otu.rare))
+sample_names <- rownames(otu.rare)
+
+library(vegan)
+
+otu.rarecurve = rarecurve(otu.rare, step = 10000)
+
+otu.rarecurve = rarecurve(otu.rare[1:20], step = 10000,label=FALSE)
+
+plot_richness(atlas.prune, x="taxa",measures=c("Chao1","Simpson","Shannon")) + geom_boxplot()
