@@ -1,5 +1,7 @@
 # Codigo
 
+#el link a la carpeta de drive donde subimos los archivos fastq es el siguiente: https://drive.google.com/drive/folders/1fULfVV3ulQXWAefxwYmJ5oShZ9tyWPL4
+
 #script para dada 2 
 library(dada2)
 direccion_fastq <- "C:/Users/Haus/Documents/fastq_PF/"#esta es la carpeta local donde están las secuencias fastq, es necerio modificar la dirección dependiendo de la ubicación, ya que no pudimos subir las secuencias a github (2.5 GB)
