@@ -40,8 +40,8 @@ plotErrors(errF, nominalQ = TRUE)
 plotErrors(errR, nominalQ = TRUE)
 #  log-10 transformation introduced infinite values.
 
-dadaFs <- dada(filtFs, err = errF, multithread = TRUE)
-dadaRs <- dada(filtRs, err = errR, multithread = TRUE)
+dadaFs <- dada(filtFs, err = errF, multithread = FALSE) # como estamos usando windows, voy a cambiar el valor de multithread por FALSE
+dadaRs <- dada(filtRs, err = errR, multithread = FALSE)
 
 mergers <- mergePairs(dadaFs, filtFs, dadaRs, filtRs, verbose=TRUE)
 
@@ -49,7 +49,7 @@ seqtab <- makeSequenceTable(mergers)
 dim(seqtab)
 #[1]   96 7370
 
-seqtab.nochim <- removeBimeraDenovo(seqtab, method="consensus", multithread=TRUE, verbose=TRUE)
+seqtab.nochim <- removeBimeraDenovo(seqtab, method="consensus", multithread=FALSE, verbose=TRUE)
 
 table(nchar(getSequences(seqtab.nochim))) #remover quimeras
 
@@ -58,6 +58,6 @@ track <- cbind(out, sapply(dadaFs, getN), sapply(dadaRs, getN), sapply(mergers, 
                rowSums(seqtab.nochim))
 
 colnames(track) <- c("input", "filtered", "denoisedF", "denoisedR", "merged", "nonchim")
-rownames(track) <- sample.names
+rownames(track) <- nombres
 head(track)
 
