@@ -61,3 +61,4 @@ colnames(track) <- c("input", "filtered", "denoisedF", "denoisedR", "merged", "n
 rownames(track) <- nombres
 head(track)
 
+taxa <- assignTaxonomy(seqtab.nochim, "C:/Users/Haus/Downloads/RDP_LSU_fixed_train_set_v2.fa.gz", multithread=FALSE) # utilizamos el RDP fungi LSU trainset 11 en lugar de UNITE
