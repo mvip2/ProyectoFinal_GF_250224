@@ -62,3 +62,15 @@ rownames(track) <- nombres
 head(track)
 
 taxa <- assignTaxonomy(seqtab.nochim, "C:/Users/Haus/Downloads/RDP_LSU_fixed_train_set_v2.fa.gz", multithread=FALSE) # utilizamos el RDP fungi LSU trainset 11 en lugar de UNITE
+taxa <- addSpecies(taxa, "C:/Users/Haus/Downloads/rdp_species_assignment_LSU_v2.fa.gz")
+saveRDS(taxa, file="taxa.RDS")
+taxa.print <- taxa # Removing sequence rownames for display only
+rownames(taxa.print) <- NULL
+head(taxa.print)
+
+# más codigo
+library(phyloseq)
+library(Biostrings)
+library(ggplot2)
+
+
